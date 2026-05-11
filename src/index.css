@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap');
+@import "leaflet/dist/leaflet.css";
 @import "tailwindcss";
 
 @theme {
@@ -25,5 +26,16 @@
   .font-serif-italic {
     font-family: var(--font-serif);
     font-style: italic;
+  }
+
+  .prose {
+    h1, h2, h3 { @apply font-serif text-natural-accent mt-8 mb-4; }
+    h1 { @apply text-2xl; }
+    h2 { @apply text-xl; }
+    h3 { @apply text-lg font-bold; }
+    p { @apply mb-4 leading-relaxed; }
+    ul { @apply list-disc pl-5 mb-4; }
+    li { @apply mb-2; }
+    hr { @apply border-natural-stone my-8; }
   }
 }

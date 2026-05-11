@@ -23,9 +23,12 @@ import {
   Ship, 
   Zap,
   Info,
-  Calendar
+  Calendar,
+  MessageSquare
 } from 'lucide-react';
-import { TRIP_DATA, TripDay, TripStop } from './types';
+import { TRIP_DATA, TRANSCRIPT_DATA, FULL_PLAN_TEXT, TripDay, TripStop } from './types';
+import MapComponent from './components/MapComponent';
+import Markdown from 'react-markdown';
 
 const IconMap: { [key: string]: any } = {
   MapPin,
@@ -65,6 +68,7 @@ const IconMap: { [key: string]: any } = {
 
 export default function App() {
   const [activeDay, setActiveDay] = useState(0);
+  const [showTranscript, setShowTranscript] = useState(false);
 
   const currentDay = TRIP_DATA[activeDay];
 
@@ -72,25 +76,40 @@ export default function App() {
     <div className="min-h-screen bg-natural-bg font-sans text-natural-text selection:bg-natural-tan/20">
       {/* Top Header Navigation */}
       <header className="bg-white border-b border-natural-border px-6 md:px-10 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="flex flex-col text-center md:text-left">
+        <div className="flex flex-col text-center md:text-left cursor-pointer" onClick={() => setShowTranscript(false)}>
           <h1 className="text-3xl md:text-4xl font-serif-italic text-natural-accent">The Great Lakes Loop</h1>
           <p className="text-[10px] tracking-widest uppercase text-[#8B8477] mt-1 font-bold">A Scenic 5-Day Michigan Journey</p>
         </div>
-        <div className="flex space-x-8 text-sm font-medium uppercase tracking-tighter">
-          <div className="flex flex-col items-center md:items-end">
-            <span className="text-[#8B8477] text-[10px]">Total Distance</span>
-            <span className="text-natural-accent">~800 Miles</span>
+        <div className="flex items-center gap-6">
+          <div className="flex space-x-8 text-sm font-medium uppercase tracking-tighter">
+            <div className="flex flex-col items-center md:items-end">
+              <span className="text-[#8B8477] text-[10px]">Total Distance</span>
+              <span className="text-natural-accent">~800 Miles</span>
+            </div>
+            <div className="flex flex-col items-center md:items-end border-l border-natural-border pl-8">
+              <span className="text-[#8B8477] text-[10px]">Duration</span>
+              <span className="text-natural-accent">5 Days / 4 Nights</span>
+            </div>
           </div>
-          <div className="flex flex-col items-center md:items-end border-l border-natural-border pl-8">
-            <span className="text-[#8B8477] text-[10px]">Duration</span>
-            <span className="text-natural-accent">5 Days / 4 Nights</span>
-          </div>
+          <button 
+            onClick={() => setShowTranscript(!showTranscript)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${
+              showTranscript 
+                ? 'bg-natural-accent text-white border-natural-accent' 
+                : 'bg-white text-natural-accent border-natural-border hover:border-natural-tan'
+            }`}
+          >
+            <MessageSquare size={16} />
+            <span className="text-xs font-bold uppercase tracking-widest">Full Text Plan</span>
+          </button>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-8">
-        {/* Day Selector */}
-        <div className="flex flex-wrap gap-3 mb-10 justify-center">
+        {!showTranscript ? (
+          <>
+            {/* Day Selector */}
+            <div className="flex flex-wrap gap-3 mb-10 justify-center">
           {TRIP_DATA.map((day, idx) => (
             <button
               key={day.day}
@@ -107,6 +126,10 @@ export default function App() {
               </span>
             </button>
           ))}
+        </div>
+
+        <div className="mb-10">
+          <MapComponent />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -233,6 +256,60 @@ export default function App() {
             </button>
           </div>
         </div>
+      </>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            {/* Transcript Column */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-white rounded-3xl shadow-sm border border-natural-stone overflow-hidden h-fit"
+            >
+              <div className="p-8 md:p-12">
+                <h2 className="text-2xl font-serif-italic text-natural-accent mb-8 border-b border-natural-stone pb-6 flex items-center gap-2">
+                  <MessageSquare size={20} />
+                  Conversation Log
+                </h2>
+                <div className="space-y-6">
+                  {TRANSCRIPT_DATA.map((msg, i) => (
+                    <div key={i} className={`flex flex-col ${msg.role === 'User' ? 'items-end' : 'items-start'}`}>
+                      <span className="text-[9px] uppercase font-bold text-[#8B8477] mb-1 tracking-widest">{msg.role}</span>
+                      <div className={`p-4 rounded-xl text-xs leading-relaxed max-w-[90%] ${
+                        msg.role === 'User' 
+                          ? 'bg-natural-bg text-natural-accent border border-natural-stone' 
+                          : 'bg-natural-accent text-white'
+                      }`}>
+                        {msg.text}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Markdown Plan Column */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-white rounded-3xl shadow-sm border border-natural-stone overflow-hidden"
+            >
+              <div className="p-8 md:p-12">
+                <h2 className="text-2xl font-serif-italic text-natural-accent mb-8 border-b border-natural-stone pb-6">
+                  Full Itinerary Text
+                </h2>
+                <div className="prose prose-sm prose-slate max-w-none prose-headings:font-serif prose-headings:text-natural-accent prose-p:text-[#6B6459] prose-li:text-[#6B6459]">
+                  <Markdown>{FULL_PLAN_TEXT}</Markdown>
+                </div>
+                <button 
+                  onClick={() => setShowTranscript(false)}
+                  className="mt-12 w-full py-4 bg-natural-accent text-white rounded-xl font-bold uppercase tracking-widest text-xs shadow-lg shadow-natural-accent/20 hover:bg-natural-accent/90 transition-colors"
+                >
+                  Back to Interactive Itinerary
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
       </main>
 
       {/* Footer */}
