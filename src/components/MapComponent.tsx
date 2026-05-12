@@ -1,25 +1,28 @@
 import { useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, ZoomControl } from 'react-leaflet';
-import L from 'leaflet';
+import * as L from 'leaflet';
 import { TRIP_DATA } from '../types';
 
 export default function MapComponent({ activeDay = 0 }: { activeDay?: number }) {
+  // Ensure we don't exceed bounds
+  const safeActiveDay = Math.min(Math.max(0, activeDay), TRIP_DATA.length - 1);
+  
   const allStops = TRIP_DATA.flatMap(day => day.stops);
   const routePositions = allStops.map(stop => [stop.position.lat, stop.position.lng] as [number, number]);
   
   // Calculate the active segment
   // If activeDay > 0, include the last stop of the previous day to show the connection
   const activeDayPositions = useMemo(() => {
-    const activeStops = TRIP_DATA[activeDay].stops;
+    const activeStops = TRIP_DATA[safeActiveDay].stops;
     const positions = activeStops.map(stop => [stop.position.lat, stop.position.lng] as [number, number]);
     
-    if (activeDay > 0) {
-      const prevDayStops = TRIP_DATA[activeDay - 1].stops;
+    if (safeActiveDay > 0) {
+      const prevDayStops = TRIP_DATA[safeActiveDay - 1].stops;
       const lastStopPrevDay = prevDayStops[prevDayStops.length - 1];
       positions.unshift([lastStopPrevDay.position.lat, lastStopPrevDay.position.lng]);
     }
     return positions;
-  }, [activeDay]);
+  }, [safeActiveDay]);
 
   // Custom marker icon creation inside the component
   const icons = useMemo(() => {
@@ -41,6 +44,8 @@ export default function MapComponent({ activeDay = 0 }: { activeDay?: number }) 
 
   // Michigan-centered initial view
   const center: [number, number] = [44.5, -84.5];
+
+  if (!allStops.length) return null;
 
   return (
     <div className="h-[450px] w-full bg-natural-stone rounded-3xl border border-natural-border overflow-hidden relative shadow-inner z-0">
@@ -82,7 +87,7 @@ export default function MapComponent({ activeDay = 0 }: { activeDay?: number }) 
         />
 
         {allStops.map((stop, idx) => {
-          const isActive = TRIP_DATA[activeDay].stops.some(s => s.name === stop.name);
+          const isActive = TRIP_DATA[safeActiveDay].stops.some(s => s.name === stop.name);
           return (
             <Marker 
               key={`${stop.name}-${idx}`} 

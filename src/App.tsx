@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import 'leaflet/dist/leaflet.css';
 import { 
   MapPin, 
   Car, 
