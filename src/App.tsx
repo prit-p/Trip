@@ -5,7 +5,6 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import 'leaflet/dist/leaflet.css';
 import { 
   MapPin, 
   Car, 
@@ -130,7 +129,7 @@ export default function App() {
         </div>
 
         <div className="mb-10">
-          <MapComponent />
+          <MapComponent activeDay={activeDay} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
