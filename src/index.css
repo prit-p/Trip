@@ -75,3 +75,25 @@
     margin-bottom: 2rem;
   }
 }
+
+@layer utilities {
+  /* Fallback utilities to keep custom palette stable across build environments. */
+  .bg-natural-bg { background-color: var(--color-natural-bg); }
+  .bg-natural-stone { background-color: var(--color-natural-stone); }
+  .bg-natural-accent { background-color: var(--color-natural-accent); }
+  .bg-natural-tan { background-color: var(--color-natural-tan); }
+
+  .text-natural-text { color: var(--color-natural-text); }
+  .text-natural-accent { color: var(--color-natural-accent); }
+  .text-natural-tan { color: var(--color-natural-tan); }
+
+  .border-natural-border { border-color: var(--color-natural-border); }
+  .border-natural-stone { border-color: var(--color-natural-stone); }
+  .border-natural-tan { border-color: var(--color-natural-tan); }
+  .border-natural-accent { border-color: var(--color-natural-accent); }
+
+  .bg-natural-tan\/20 { background-color: rgb(184 158 126 / 0.2); }
+  .bg-natural-stone\/30 { background-color: rgb(232 228 219 / 0.3); }
+  .bg-natural-accent\/90 { background-color: rgb(62 74 61 / 0.9); }
+  .shadow-natural-accent\/20 { --tw-shadow-color: rgb(62 74 61 / 0.2); }
+}
