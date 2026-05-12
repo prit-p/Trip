@@ -11,12 +11,18 @@ const createCustomIcon = (color: string) => L.divIcon({
   iconAnchor: [6, 6],
 });
 
-const themeMarkerIcon = createCustomIcon('#3E4A3D');
-
 export default function MapComponent() {
   const allStops = TRIP_DATA.flatMap(day => day.stops);
   const routePositions = allStops.map(stop => [stop.position.lat, stop.position.lng] as [number, number]);
   
+  // Custom marker icon creation inside the component
+  const themeMarkerIcon = L.divIcon({
+    html: `<div style="background-color: #3E4A3D; width: 12px; height: 12px; border: 2px solid white; border-radius: 50%; box-shadow: 0 0 4px rgba(0,0,0,0.3);"></div>`,
+    className: 'custom-leaflet-icon',
+    iconSize: [12, 12],
+    iconAnchor: [6, 6],
+  });
+
   // Michigan-centered initial view
   const center: [number, number] = [44.5, -84.5];
 

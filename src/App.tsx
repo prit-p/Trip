@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import 'leaflet/dist/leaflet.css';
 import { 
   MapPin, 
   Car, 
@@ -161,6 +162,10 @@ export default function App() {
                   </div>
 
                   <div className="mb-10">
+                    <div className="flex items-center gap-3 mb-2">
+                      <Calendar size={14} className="text-natural-tan" />
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8B8477]">{currentDay.date}</span>
+                    </div>
                     <h3 className="text-3xl font-bold text-natural-accent mb-2">
                       {currentDay.title}
                     </h3>

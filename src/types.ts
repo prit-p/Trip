@@ -9,6 +9,7 @@ export interface TripStop {
 
 export interface TripDay {
   day: number;
+  date: string;
   title: string;
   subtitle: string;
   driveTime?: string;
@@ -47,7 +48,7 @@ This itinerary prioritizes the **scenic byways** of Michigan. Instead of taking 
 
 ---
 
-### **Day 1: Arrival & Ann Arbor’s "Hidden" Nature**
+### **Day 1: Friday, June 19 - Arrival & Ann Arbor’s "Hidden" Nature**
 *   **Arrival:** Settle into Ann Arbor.
 *   **Afternoon:** Visit **Matthaei Botanical Gardens**. It offers beautiful Conservatory views and scenic trails. 
 *   **The Neighborhood Walk:** Head to the **Old West Side**. It’s a historic neighborhood with beautiful 19th-century homes and massive oak trees. Walk to **Blank Slate Creamery** for local ice cream.
@@ -55,7 +56,7 @@ This itinerary prioritizes the **scenic byways** of Michigan. Instead of taking 
 
 ---
 
-### **Day 2: The "Tunnel of Trees" Route (Ann Arbor to Mackinac)**
+### **Day 2: Saturday, June 20 - The "Tunnel of Trees" Route**
 *   **Morning:** Leave AA early and head toward **Harbor Springs**. 
 *   **The Scenic Drive (M-119):** From Harbor Springs to Cross Village, drive the **"Tunnel of Trees."** This is one of the most famous scenic roads in the USA.
 *   **Stop – Good Hart:** Stop at the **Good Hart General Store** (built in 1934) for a pot pie or a snack.
@@ -64,7 +65,7 @@ This itinerary prioritizes the **scenic byways** of Michigan. Instead of taking 
 
 ---
 
-### **Day 3: The "Top of the Lake" Drive (Mackinac to Pictured Rocks)**
+### **Day 3: Sunday, June 21 - The "Top of the Lake" Drive**
 *   **Morning:** Rent a bike on Mackinac Island. Bike the **8-mile loop around the island (M-185)**—it’s the only highway in America where cars are banned.
 *   **Afternoon Drive (US-2):** Cross the bridge into the Upper Peninsula (UP). Take **US-2 West** toward Manistique. This road hugs the **Northern Shore of Lake Michigan**.
 *   **The Scenic Detour:** Visit **Kitch-iti-kipi (The Big Spring)**. You board a self-propelled observation raft to see trout through emerald green water 40 feet deep.
@@ -72,7 +73,7 @@ This itinerary prioritizes the **scenic byways** of Michigan. Instead of taking 
 
 ---
 
-### **Day 4: Pictured Rocks & The "Sunrise Coast" Return**
+### **Day 4: Monday, June 22 - Pictured Rocks & The "Sunrise Coast" Return**
 *   **Morning:** Do a **Pictured Rocks Kayak Tour** or the **Morning Cruise**. Seeing the "Painted Coves" from the water is the highlight of the trip.
 *   **Afternoon (The Drive Home):** Head east toward **Tahquamenon Falls State Park**. See the "Upper Falls"—the second-largest waterfall east of the Mississippi. 
 *   **The Scenic Return (US-23):** Cross back over the Mackinac Bridge. Take **US-23 South** along the **Lake Huron "Sunrise Coast."**
@@ -80,7 +81,7 @@ This itinerary prioritizes the **scenic byways** of Michigan. Instead of taking 
 
 ---
 
-### **Day 5: Ann Arbor Neighborhoods & River Views**
+### **Day 5: Tuesday, June 23 - Ann Arbor Neighborhoods & River Views**
 *   **Morning:** **Canoe or Kayak the Huron River**. Go to **Argo Park Livery**. You can paddle through the "Argo Cascades" and down to the Arb. 
 *   **Lunch:** Visit the **Kerrytown District**. Eat at **Monahan’s Seafood** or the **Zingerman's** deli.
 *   **Afternoon Detour:** Drive 20 minutes west to the village of **Chelsea**. Quintessential Michigan small-town downtown.
@@ -90,6 +91,7 @@ This itinerary prioritizes the **scenic byways** of Michigan. Instead of taking 
 export const TRIP_DATA: TripDay[] = [
   {
     day: 1,
+    date: "Friday, June 19",
     title: "Arrival & Hidden Nature",
     subtitle: "Ann Arbor Neighborhoods",
     highlights: ["Matthaei Botanical Gardens", "Old West Side", "Blank Slate Creamery"],
@@ -120,6 +122,7 @@ export const TRIP_DATA: TripDay[] = [
   },
   {
     day: 2,
+    date: "Saturday, June 20",
     title: "The Tunnel of Trees",
     subtitle: "Coastline of Lake Michigan",
     driveTime: "~6 hours",
@@ -158,6 +161,7 @@ export const TRIP_DATA: TripDay[] = [
   },
   {
     day: 3,
+    date: "Sunday, June 21",
     title: "Top of the Lake",
     subtitle: "Into the Upper Peninsula",
     driveTime: "~3.5 hours",
@@ -196,6 +200,7 @@ export const TRIP_DATA: TripDay[] = [
   },
   {
     day: 4,
+    date: "Monday, June 22",
     title: "Painted Cliffs & Sunrise Coast",
     subtitle: "Superior Views & The Drive South",
     driveTime: "~7 hours",
@@ -228,6 +233,7 @@ export const TRIP_DATA: TripDay[] = [
   },
   {
     day: 5,
+    date: "Tuesday, June 23",
     title: "River Views & Small Towns",
     subtitle: "Ann Arbor Final Day",
     highlights: ["Huron River Kayaking", "Argo Cascades", "Chelsea Detour"],
