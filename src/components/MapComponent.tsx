@@ -1,31 +1,38 @@
 import { useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, ZoomControl } from 'react-leaflet';
-import * as L from 'leaflet';
+import L from 'leaflet';
 import { TRIP_DATA } from '../types';
 
 export default function MapComponent({ activeDay = 0 }: { activeDay?: number }) {
   // Ensure we don't exceed bounds
-  const safeActiveDay = Math.min(Math.max(0, activeDay), TRIP_DATA.length - 1);
+  const safeActiveDay = useMemo(() => {
+    if (!TRIP_DATA || TRIP_DATA.length === 0) return 0;
+    return Math.min(Math.max(0, activeDay), TRIP_DATA.length - 1);
+  }, [activeDay]);
   
-  const allStops = TRIP_DATA.flatMap(day => day.stops);
-  const routePositions = allStops.map(stop => [stop.position.lat, stop.position.lng] as [number, number]);
+  const allStops = useMemo(() => TRIP_DATA.flatMap(day => day.stops), []);
+  const routePositions = useMemo(() => allStops.map(stop => [stop.position.lat, stop.position.lng] as [number, number]), [allStops]);
   
   // Calculate the active segment
   // If activeDay > 0, include the last stop of the previous day to show the connection
   const activeDayPositions = useMemo(() => {
+    if (!TRIP_DATA[safeActiveDay]) return [];
     const activeStops = TRIP_DATA[safeActiveDay].stops;
     const positions = activeStops.map(stop => [stop.position.lat, stop.position.lng] as [number, number]);
     
-    if (safeActiveDay > 0) {
+    if (safeActiveDay > 0 && TRIP_DATA[safeActiveDay - 1]) {
       const prevDayStops = TRIP_DATA[safeActiveDay - 1].stops;
       const lastStopPrevDay = prevDayStops[prevDayStops.length - 1];
-      positions.unshift([lastStopPrevDay.position.lat, lastStopPrevDay.position.lng]);
+      if (lastStopPrevDay) {
+        positions.unshift([lastStopPrevDay.position.lat, lastStopPrevDay.position.lng]);
+      }
     }
     return positions;
   }, [safeActiveDay]);
 
   // Custom marker icon creation inside the component
   const icons = useMemo(() => {
+    if (!L || !L.divIcon) return null;
     return {
       base: L.divIcon({
         html: `<div style="background-color: #3E4A3D; width: 12px; height: 12px; border: 2px solid white; border-radius: 50%; box-shadow: 0 0 4px rgba(0,0,0,0.3);"></div>`,
@@ -45,7 +52,7 @@ export default function MapComponent({ activeDay = 0 }: { activeDay?: number }) 
   // Michigan-centered initial view
   const center: [number, number] = [44.5, -84.5];
 
-  if (!allStops.length) return null;
+  if (!allStops.length || !icons) return null;
 
   return (
     <div className="h-[450px] w-full bg-natural-stone rounded-3xl border border-natural-border overflow-hidden relative shadow-inner z-0">
