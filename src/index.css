@@ -2,40 +2,76 @@
 @import "leaflet/dist/leaflet.css";
 @import "tailwindcss";
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Outfit", sans-serif;
-  --font-serif: "Playfair Display", serif;
-
+:root {
   --color-natural-bg: #FAF8F5;
   --color-natural-text: #2D332D;
   --color-natural-accent: #3E4A3D;
   --color-natural-tan: #B89E7E;
   --color-natural-stone: #E8E4DB;
   --color-natural-border: #E0DBCF;
+  
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+  --font-serif: "Playfair Display", serif;
 }
 
 @layer base {
   body {
-    @apply bg-natural-bg text-natural-text font-sans;
+    background-color: var(--color-natural-bg);
+    color: var(--color-natural-text);
+    font-family: var(--font-sans);
   }
+  
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
+  
   .font-serif-italic {
     font-family: var(--font-serif);
     font-style: italic;
   }
+}
 
-  .prose {
-    h1, h2, h3 { @apply font-serif text-natural-accent mt-8 mb-4; }
-    h1 { @apply text-2xl; }
-    h2 { @apply text-xl; }
-    h3 { @apply text-lg font-bold; }
-    p { @apply mb-4 leading-relaxed; }
-    ul { @apply list-disc pl-5 mb-4; }
-    li { @apply mb-2; }
-    hr { @apply border-natural-stone my-8; }
+@layer components {
+  .prose h1, .prose h2, .prose h3 { 
+    font-family: var(--font-serif);
+    color: var(--color-natural-accent);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose h1 { 
+    font-size: 1.5rem;
+  }
+  
+  .prose h2 { 
+    font-size: 1.25rem;
+  }
+  
+  .prose h3 { 
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+  
+  .prose p { 
+    margin-bottom: 1rem;
+    line-height: 1.625;
+  }
+  
+  .prose ul { 
+    list-style-type: disc;
+    padding-left: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose li { 
+    margin-bottom: 0.5rem;
+  }
+  
+  .prose hr { 
+    border-color: var(--color-natural-stone);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 }
